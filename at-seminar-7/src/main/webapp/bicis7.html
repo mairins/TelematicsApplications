@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Lab1</title>
+</head>
+<body bgcolor="#c4dcf5">
+
+<H1 ALIGN="CENTER">Bicing</H1>
+<div style="text-align:center">
+		<button  style="text-align:center" type="button" onclick="loadallStations()">Get all stations</button><br>
+		<button type="button" onclick="loadallUsers()">Get all users</button><br>
+		
+		<script>
+		function loadallStations() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("sectionId").innerHTML = xmlhttp.responseText;
+			}
+			};
+			xmlhttp.open("GET", "at/bicing/getallStations", true);
+			xmlhttp.send();
+			}
+		
+		function loadallUsers() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("sectionId").innerHTML = xmlhttp.responseText;
+			}
+			};
+			xmlhttp.open("GET", "at/bicing/getallUsers", true);
+			xmlhttp.send();
+			}
+		</script>
+		<FORM >
+		Phone: <INPUT TYPE="TEXT" id = "phone" NAME="phone"><br>
+		Telegram: <INPUT TYPE="TEXT" id = "telegramToken" NAME="telegramToken"><br>
+		Station ID: <INPUT TYPE="TEXT" id="stationsIds" NAME="stationsIds"><br>
+		<button type="button" onclick="load()">Subscribe</button>
+		</FORM>
+		
+		
+		<script>
+		function load() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("sectionId").innerHTML = xmlhttp.responseText;
+			}
+			};
+			var params = {
+					"phone": document.getElementById("phone").value,
+					"telegram": document.getElementById("telegramToken").value,
+					"subs_IDStations": document.getElementById("stationsIds").value.replace(/\s/g,"").split(",")
+					};
+			xmlhttp.open("POST", "at/bicing/addUser", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			xmlhttp.send(JSON.stringify(params));
+			}
+		</script>	
+		<p>Please, enter the phone of a user to know the stations is subscribed to</p>
+		<FORM >
+		Phone: <INPUT TYPE="TEXT" id = "phone" NAME="phone"><br>
+		<button type="button" onclick="notifySlots()">Get subscribed stations</button><br>
+		</FORM>
+		
+		<script>
+		function notifySlots() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("Notifyid").innerHTML = xmlhttp.responseText;
+			}
+			};
+			var params = {
+					"phone": document.getElementById("phone").value,
+					};
+			xmlhttp.open("POST", "at/bicing/notifySlots", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			xmlhttp.send(JSON.stringify(params));
+			}
+		</script>
+		</div>
+		<div id="sectionId"></div>
+		
+<H2 ALIGN="CENTER">Covid</H2>
+<div style="text-align:center">
+		<button type="button" onclick="GetCovid()">Covid info</button><br>
+		<script>
+		function GetCovid() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("Covidid").innerHTML = xmlhttp.responseText;
+			}
+			};
+			xmlhttp.open("GET", "at/bicing/getCovid", true);
+			xmlhttp.send();
+			}
+		</script>
+		
+		<FORM >
+		Phone: <INPUT TYPE="TEXT" id = "phoneCovid" NAME="phoneCovid"><br>
+		Region: <INPUT TYPE="TEXT" id = "region" NAME="region"><br>
+		<button type="button" onclick="notifyCovid()">My Region info</button><br>
+		</FORM>
+		<script>
+		function notifyCovid() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById("Covidid").innerHTML = xmlhttp.responseText;
+			}
+			};
+			var params1 = {
+					"phone": document.getElementById("phoneCovid").value,
+					"myRegion": document.getElementById("region").value
+					};
+			xmlhttp.open("POST", "at/bicing/notifyCovid", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			xmlhttp.send(JSON.stringify(params1));
+			}
+		</script>
+		</div>
+<div id="Notifyid"></div>
+<div id="Covidid"></div>
+</body>
+
+</html>
